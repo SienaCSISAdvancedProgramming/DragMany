@@ -6,95 +6,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
-   A class to encapsulate information about a shape on the screen.
-*/
-class DraggableShape {
-
-    // some named constants to define shapes
-    public static final int CIRCLE = 0;
-    public static final int SQUARE = 1;
-
-    // shape info
-    private int shape;
-    private boolean isFilled;
-    private int size;
-    private Point upperLeft;
-    private Color color;
-
-    public DraggableShape(int shape, boolean isFilled, int size,
-			  Point upperLeft, Color color) {
-
-	// some bounds checking on these would probably be nice
-	this.shape = shape;
-	this.isFilled = isFilled;
-	this.size = size;
-	this.color = color;
-
-	// since Point is mutable, we want to avoid side-effects that
-	// could result from changes to the Point object, so we
-	// make a new one here that we know will not be modified
-	// by anyone else
-	this.upperLeft = new Point(upperLeft);
-    }
-
-    /**
-       paint this object onto the given Graphics area
-
-       @param g the Graphics object where the shape should be drawn
-    */
-    public void paint(Graphics g) {
-
-	g.setColor(color);
-	if (shape == CIRCLE) {
-	    if (isFilled) {
-		g.fillOval(upperLeft.x, upperLeft.y, size, size);
-	    }
-	    else {
-		g.drawOval(upperLeft.x, upperLeft.y, size, size);
-	    }
-	}
-	else {
-	    if (isFilled) {
-		g.fillRect(upperLeft.x, upperLeft.y, size, size);
-	    }
-	    else {
-		g.drawRect(upperLeft.x, upperLeft.y, size, size);
-	    }
-	}
-    }
-
-    /**
-       A relative move of this object.
-
-       @param dx amount to translate in x
-       @param dy amount to translate in y
-    */
-    public void translate(int dx, int dy) {
-
-	upperLeft.translate(dx, dy);
-    }
-
-    /** 
-	Determine if the given point is within this shape.
-
-	@param p Point to check
-    */
-    public boolean contains(Point p) {
-
-	if (shape == CIRCLE) {
-	    Point circleCenter =
-		new Point(upperLeft.x + size/2, upperLeft.y + size/2);
-	    return circleCenter.distance(p) <= size/2;
-
-	}
-	else {
-	    return p.x >= upperLeft.x && p.x <= upperLeft.x + size &&
-		p.y >= upperLeft.y && p.y <= upperLeft.y + size;
-	}
-    }
-}
-
-/**
    A program to demonstrate a dragging operation on any one of many
    objects.  Could be circles and squares, filled or outlined, and
    come in various sizes, and colors.
@@ -280,4 +191,92 @@ public class DragMany extends MouseAdapter implements Runnable {
 	javax.swing.SwingUtilities.invokeLater(new DragMany(count));
     }
 }
-   
+
+/**
+   A class to encapsulate information about a shape on the screen.
+*/
+class DraggableShape {
+
+    // some named constants to define shapes
+    public static final int CIRCLE = 0;
+    public static final int SQUARE = 1;
+
+    // shape info
+    private int shape;
+    private boolean isFilled;
+    private int size;
+    private Point upperLeft;
+    private Color color;
+
+    public DraggableShape(int shape, boolean isFilled, int size,
+			  Point upperLeft, Color color) {
+
+	// some bounds checking on these would probably be nice
+	this.shape = shape;
+	this.isFilled = isFilled;
+	this.size = size;
+	this.color = color;
+
+	// since Point is mutable, we want to avoid side-effects that
+	// could result from changes to the Point object, so we
+	// make a new one here that we know will not be modified
+	// by anyone else
+	this.upperLeft = new Point(upperLeft);
+    }
+
+    /**
+       paint this object onto the given Graphics area
+
+       @param g the Graphics object where the shape should be drawn
+    */
+    public void paint(Graphics g) {
+
+	g.setColor(color);
+	if (shape == CIRCLE) {
+	    if (isFilled) {
+		g.fillOval(upperLeft.x, upperLeft.y, size, size);
+	    }
+	    else {
+		g.drawOval(upperLeft.x, upperLeft.y, size, size);
+	    }
+	}
+	else {
+	    if (isFilled) {
+		g.fillRect(upperLeft.x, upperLeft.y, size, size);
+	    }
+	    else {
+		g.drawRect(upperLeft.x, upperLeft.y, size, size);
+	    }
+	}
+    }
+
+    /**
+       A relative move of this object.
+
+       @param dx amount to translate in x
+       @param dy amount to translate in y
+    */
+    public void translate(int dx, int dy) {
+
+	upperLeft.translate(dx, dy);
+    }
+
+    /** 
+	Determine if the given point is within this shape.
+
+	@param p Point to check
+    */
+    public boolean contains(Point p) {
+
+	if (shape == CIRCLE) {
+	    Point circleCenter =
+		new Point(upperLeft.x + size/2, upperLeft.y + size/2);
+	    return circleCenter.distance(p) <= size/2;
+
+	}
+	else {
+	    return p.x >= upperLeft.x && p.x <= upperLeft.x + size &&
+		p.y >= upperLeft.y && p.y <= upperLeft.y + size;
+	}
+    }
+}
